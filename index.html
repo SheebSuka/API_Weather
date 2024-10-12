@@ -6,31 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>clima</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <div class="container">
-        <h1> Clima APP</h1>
+        <h1>Clima App</h1>
         <form id="formulario-ciudad">
             <label for="ciudad">¿Cual es tu ciudad?</label>
-            <input type="text" name="ciudad" id="ciudad" required>
-            <button type="submit" class="btn btn-primary"></button>
+            <input type="text" id="ciudad" name="ciudad" required>
+            <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
-
         <div id="mensaje-bienvenida"></div>
-
+        <div id="clima-ciudad"></div>
         <button id="borrar-ciudad" class="btn btn-danger">Borrar Ciudad</button>
-        <h2>Ciudades DEFAULT</h2>
-        <ul id="lista-ciudad-default"></ul>
-        <form id="formulario-ciudades-default">
-            <label for="lista-ciudad-default"></label>
-
-
+        <h2>Ciudades Default</h2>
+        <ul id="lista-ciudades-default"></ul>
+        <form id="formulario-agregar-ciudad-default">
+            <label for="ciudad-default">Agregar ciudad default:</label>
+            <input type="text" id="ciudad-default" name="ciudad-default" required>
+            <button type="submit" class="btn btn-success">Agregar</button>
         </form>
-
-
+        <h2>Ciudades más calientes</h2>
+        <ul id="lista-ciudades-calientes"></ul>
     </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
