@@ -5,14 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>clima</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 </head>
 
 <body>
-    <h1>Buscador de clima</h1>
-    <input type="text" id="ciudad" placeholder="Ingrese la ciudad">
-    <button id="buscar">Buscar</button>
-    <div id="resultado"></div>
-    <script src="script.js"></script>
+    <div class="container">
+        <h1> Clima APP</h1>
+        <form id="formulario-ciudad">
+            <label for="ciudad">¿Cual es tu ciudad?</label>
+            <input type="text" name="ciudad" id="ciudad" required>
+            <button type="submit" class="btn btn-primary"></button>
+        </form>
+
+        <div id="mensaje-bienvenida"></div>
+
+        <button id="borrar-ciudad" class="btn btn-danger">Borrar Ciudad</button>
+        <h2>Ciudades DEFAULT</h2>
+        <ul id="lista-ciudad-default"></ul>
+        <form id="formulario-ciudades-default">
+            <label for="lista-ciudad-default"></label>
+
+
+        </form>
+
+
+    </div>
 </body>
 
 </html>
