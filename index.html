@@ -1,37 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>clima</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <title>Clima</title>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Clima App</h1>
-        <form id="formulario-ciudad">
-            <label for="ciudad">¿Cual es tu ciudad?</label>
-            <input type="text" id="ciudad" name="ciudad" required>
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
-        <div id="mensaje-bienvenida"></div>
-        <div id="clima-ciudad"></div>
-        <button id="borrar-ciudad" class="btn btn-danger">Borrar Ciudad</button>
-        <h2>Ciudades Default</h2>
-        <ul id="lista-ciudades-default"></ul>
-        <form id="formulario-agregar-ciudad-default">
-            <label for="ciudad-default">Agregar ciudad default:</label>
-            <input type="text" id="ciudad-default" name="ciudad-default" required>
-            <button type="submit" class="btn btn-success">Agregar</button>
-        </form>
-        <h2>Ciudades más calientes</h2>
-        <ul id="lista-ciudades-calientes"></ul>
-    </div>
+    <h1>Consulta del Clima</h1>
+    <input type="text" id="cityInput" placeholder="Ingresa el nombre de la ciudad">
+    <button id="getWeatherBtn">Mostrar Temperatura</button>
+    <div id="weatherResult"></div>
 
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
-
-</html>
+</html> 
