@@ -1,9 +1,9 @@
 const apiKey = '9b9a43120a8fe9f9a9edde94b15d8513'; // Reemplaza con tu clave API
 const button = document.getElementById('getWeatherBtn');
-const addCityButton = document.getElementById('addCityBtn'); // Selecciona el botón para agregar ciudad
 const clearButton = document.getElementById('clearStorageBtn');
 const resultDiv = document.getElementById('weatherResult');
 const defaultCitiesDiv = document.getElementById('defaultCities');
+const cityForm = document.getElementById('cityForm'); // Selecciona el contenedor del formulario
 
 // Inicializa el array de ciudades por defecto desde LocalStorage o usa un valor por defecto
 let defaultCities = JSON.parse(localStorage.getItem('defaultCities')) || ['Madrid', 'Barcelona', 'Buenos Aires', 'Lima', 'Santiago'];
@@ -59,6 +59,12 @@ function obtenerTemperatura(city) {
 // Maneja el clic en el botón para obtener el clima
 button.addEventListener('click', () => {
     const city = document.getElementById('cityInput').value;
+    
+    if (!city) {
+        alert("Por favor, ingresa una ciudad.");
+        return;
+    }
+
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     fetch(url)
@@ -73,40 +79,35 @@ button.addEventListener('click', () => {
             const weatherDescription = data.weather[0].description;
 
             // Muestra los resultados en el div correspondiente
-            resultDiv.innerHTML = `<p>Temperatura en ${city}: ${temperature}°C</p><p>Descripción: ${weatherDescription}</p>`;
-
+            resultDiv.innerHTML = `<p>¡Bienvenido! El clima de tu ciudad es: ${temperature}°C, ${weatherDescription}</p>`;
+            
             // Guarda los datos en LocalStorage
             const weatherData = { city, temperature, description: weatherDescription };
             localStorage.setItem('weatherData', JSON.stringify(weatherData));
+
+            // Oculta el formulario después de ingresar la ciudad
+            cityForm.style.display = 'none';
         })
         .catch(error => {
             resultDiv.innerHTML = `<p>${error.message}</p>`;
         });
 });
 
-// Maneja el clic en el botón para agregar una nueva ciudad
-addCityButton.addEventListener('click', () => {
-    const newCity = document.getElementById('cityInput').value; // Obtiene la ciudad ingresada
-
-    if (newCity && !defaultCities.includes(newCity)) { // Verifica que no esté vacía y no esté ya en el array
-        defaultCities.push(newCity); // Agrega la nueva ciudad al array
-
-        // Guarda el array actualizado en LocalStorage
-        localStorage.setItem('defaultCities', JSON.stringify(defaultCities));
-
-        mostrarCiudadesPorDefecto(); // Muestra las ciudades actualizadas
-        document.getElementById('cityInput').value = ''; // Limpia el campo de entrada
-    } else if (defaultCities.includes(newCity)) {
-        alert(`${newCity} ya está en la lista de ciudades.`);
-    } else {
-        alert("Por favor, ingresa un nombre de ciudad válido.");
-    }
-});
-
-// Maneja el clic en el botón para eliminar datos del LocalStorage
+// Maneja el clic en el botón para eliminar datos del LocalStorage y las ciudades por defecto
 clearButton.addEventListener('click', () => {
-    localStorage.removeItem('weatherData');
-    resultDiv.innerHTML += `<p>Datos de clima eliminados.</p>`;
+    localStorage.removeItem('weatherData'); // Elimina los datos del clima guardados
+    localStorage.removeItem('defaultCities'); // Elimina las ciudades por defecto guardadas
+
+    // Reinicia el array de ciudades por defecto a un valor inicial
+    defaultCities = ['Madrid', 'Barcelona', 'Buenos Aires', 'Lima', 'Santiago'];
+    
+    // Muestra un mensaje y actualiza la lista de ciudades por defecto
+    resultDiv.innerHTML += `<p>Datos de clima y ciudades eliminados.</p>`;
+    
+    mostrarCiudadesPorDefecto(); // Muestra las ciudades iniciales
+
+    // Muestra nuevamente el formulario
+    cityForm.style.display = 'block';
 });
 
 // Muestra los datos guardados y las ciudades por defecto al cargar la página

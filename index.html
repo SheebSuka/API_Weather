@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clima</title>
+    <title>Clima con LocalStorage</title>
 </head>
+
 <body>
     <h1>Consulta del Clima</h1>
-    <input type="text" id="cityInput" placeholder="Ingresa el nombre de la ciudad">
-    <button id="getWeatherBtn">Mostrar Temperatura</button>
-    <button id="addCityBtn">Agregar Ciudad</button> 
+    <div id="cityForm">
+        <input type="text" id="cityInput" placeholder="Ingresa el nombre de la ciudad">
+        <button id="getWeatherBtn">Mostrar Temperatura</button>
+        <button id="addCityBtn">Agregar Ciudad</button>
+    </div>
     <button id="clearStorageBtn">Eliminar Datos Guardados</button>
-
     <div id="weatherResult"></div>
 
+    <h2>Ciudades por Defecto</h2>
     <ul id="defaultCities"></ul>
 
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
-</html> 
+
+</html>
