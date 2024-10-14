@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const apiKey = '9b9a43120a8fe9f9a9edde94b15d8513'; 
-    const formulario = document.getElementById('formulario'); 
-    const climaInfo = document.getElementById('climaInfo'); 
-    const ciudadInput = document.getElementById('ciudadInput'); 
-    const resultadoClima = document.getElementById('resultadoClima'); 
-    const buscarCiudadInput = document.getElementById('buscarCiudadInput'); 
-    const buscarBtn = document.getElementById('buscarBtn'); 
-    const listaCiudades = document.getElementById('listaCiudades'); 
-    const listaCiudadesPorDefecto = document.getElementById('listaCiudadesPorDefecto'); 
-    const resultadoCiudadCaliente = document.getElementById('resultadoCiudadCaliente'); 
+    const apiKey = '9b9a43120a8fe9f9a9edde94b15d8513';
+    const formulario = document.getElementById('formulario');
+    const climaInfo = document.getElementById('climaInfo');
+    const ciudadInput = document.getElementById('ciudadInput');
+    const resultadoClima = document.getElementById('resultadoClima');
+    const buscarCiudadInput = document.getElementById('buscarCiudadInput');
+    const buscarBtn = document.getElementById('buscarBtn');
+    const listaCiudades = document.getElementById('listaCiudades');
+    const listaCiudadesPorDefecto = document.getElementById('listaCiudadesPorDefecto');
+    const resultadoCiudadCaliente = document.getElementById('resultadoCiudadCaliente');
 
     let ciudadesBuscadas = []; // Arreglo para almacenar las ciudades buscadas
     let temperaturasPorDefecto = []; // Arreglo para almacenar las temperaturas de las ciudades por defecto
-    const ciudadesPorDefectoOriginal = ['Nogales', 'Arizona', 'Japan', 'Lima', 'Santiago']; // Lista original de ciudades por defecto
+    const ciudadesPorDefectoOriginal = ['Nogales', 'Arizona', 'Shibuya', 'Lima', 'Caborca']; // Lista original de ciudades por defecto
     let ciudadesPorDefecto = []; // Arreglo que contendrá las ciudades por defecto actuales
 
     function guardarCiudadesPorDefecto() {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('insertarBtn').addEventListener('click', () => {
         const ciudad = ciudadInput.value.trim(); // Obtiene y limpia el valor del campo de entrada
         if (ciudad === "") {
-            alert("Por favor, ingrese el nombre de una ciudad."); 
+            alert("Por favor, ingrese el nombre de una ciudad.");
         } else {
             fetchDatosClima(ciudad); // Llama a la función para obtener datos climáticos de la ciudad ingresada
         }
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     buscarBtn.addEventListener('click', () => {
         const ciudadBuscada = buscarCiudadInput.value.trim(); // Obtiene y limpia el valor del campo de búsqueda
         if (ciudadBuscada === "") {
-            alert("Por favor, ingrese el nombre de una ciudad para buscar."); 
+            alert("Por favor, ingrese el nombre de una ciudad para buscar.");
         } else {
             fetchDatosClima(ciudadBuscada, true); // Llama a la función para buscar datos climáticos de la ciudad ingresada
         }
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('agregarCiudadBtn').addEventListener('click', () => {
         const nuevaCiudad = document.getElementById('nuevaCiudadInput').value.trim(); // Obtiene y limpia el valor del campo para nueva ciudad
         if (nuevaCiudad === "") {
-            alert("Por favor, ingrese el nombre de una nueva ciudad."); 
+            alert("Por favor, ingrese el nombre de una nueva ciudad.");
             return;
         }
         if (!ciudadesPorDefecto.includes(nuevaCiudad) && !ciudadesBuscadas.some(c => c.nombre === nuevaCiudad)) {
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchDatosClima(nuevaCiudad, false, true); // Obtiene datos climáticos de la nueva ciudad agregada
             document.getElementById('nuevaCiudadInput').value = ""; // Limpia el campo de entrada para nueva ciudad después de agregarla
         } else {
-            alert("La ciudad ya está en la lista de ciudades por defecto o en la lista de búsqueda."); 
+            alert("La ciudad ya está en la lista de ciudades por defecto o en la lista de búsqueda.");
         }
     });
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function fetchDatosClima(ciudad, esBusqueda = false, esDefault = false) {
-        // Construye la URL para obtener datos climáticos desde OpenWeatherApi y maneja la respuesta.
+        // Construye la URL para obtener datos climaticos desde OpenWeatherApi y maneja la respuesta.
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric`;
 
         fetch(url)
@@ -177,13 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function mostrarClima(info) {
-        resultadoClima.innerHTML = `¡Bienvenido de vuelta! El clima de: ${info.nombre}, Temperatura: ${info.temperatura}°C`;
+        resultadoClima.innerHTML = `¡Bienvenido de vuelta! El clima de ${info.nombre}, es:  ${info.temperatura}°C`;
         mostrarClimaInfo();  // Muestra información climática al usuario.
     }
 
     function mostrarFormulario() {
         formulario.style.display = 'block';
-        climaInfo.style.display = 'none';  
+        climaInfo.style.display = 'none';
     }
 
     function mostrarClimaInfo() {
