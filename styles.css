@@ -4,3 +4,9 @@
     transform: scale(1.05);
     transition: all 0.2s ease-in-out;
 }
+body{
+    background-image: url(/img/WP.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
