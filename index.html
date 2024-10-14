@@ -6,15 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherWave</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" href="/img/cloudy.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">WeatherWave</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Clima</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Ciudades</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Sección de inserción de ciudad --> 
+    <!-- Sección de inserción de ciudad -->
     <div id="formulario" class="container mt-5">
-        <h1 class="text-primary text-center mb-4">¡Bienvenido!</h1>
+        <h1 class="text-center mb-4">¡Bienvenido!</h1>
         <div class="input-group mb-4">
             <input type="text" id="ciudadInput" class="form-control" placeholder="Inserte ciudad">
             <button id="insertarBtn" class="btn btn-primary">Agregar</button>
@@ -23,7 +46,7 @@
 
     <!-- Información del clima -->
     <div id="climaInfo" class="container" style="display:none;">
-        <h1 id="resultadoClima" class="text-center text-success">Bienvenido de vuelta, su ciudad y clima es:</h1>
+        <h1 id="resultadoClima" class="text-center">Bienvenido de vuelta, su ciudad y clima es:</h1>
         <div class="input-group mb-4">
             <input type="text" id="buscarCiudadInput" class="form-control" placeholder="Buscar ciudad">
             <button id="buscarBtn" class="btn btn-primary">Buscar</button>
@@ -34,7 +57,7 @@
 
     <!-- Sección de Ciudades por Defecto -->
     <div id="ciudadesPorDefecto" class="container mt-5">
-        <h2 class="text-center text-primary">Ciudades por Defecto</h2>
+        <h2 class="text-center">Ciudades por Defecto</h2>
         <div id="listaCiudadesPorDefecto" class="row g-3 mb-4"></div>
         <h3 class="text-center">Agregar Ciudad por Defecto</h3>
         <div class="input-group mb-4">
@@ -48,9 +71,17 @@
     <!-- Ciudad Más Caliente -->
     <div id="ciudadMasCaliente" class="container mt-5">
         <h2 class="text-center text-danger">Ciudad Más Caliente</h2>
-        <p id="resultadoCiudadCaliente" class="text-center"></p>
+        <div class="card border-danger mt-3">
+            <div class="card-body">
+                <p id="resultadoCiudadCaliente" class="text-center mb-0"></p>
+            </div>
+        </div>
     </div>
-
+    <footer class="footer-custom mt-5">
+        <div class="container">
+            <p>&copy; 2024 WeatherWave. Todos los derechos reservados.</p>
+        </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>

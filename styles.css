@@ -1,12 +1,31 @@
 /* styles.css */
 .card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05);
-    transition: all 0.2s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
 }
-body{
-    background-image: url(/img/WP.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+body {
+  background-image: url(img/WP.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+h1,
+h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: #18171c; /* Color negro */
+}
+.navbar-custom,
+.footer-custom {
+  /*background-color: rgba(255, 255, 255, 0.7);*/
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari */
+}
+.footer-custom {
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #6c757d;
 }
