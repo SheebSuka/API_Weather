@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaCiudadesPorDefecto = document.getElementById('listaCiudadesPorDefecto');
     const resultadoCiudadCaliente = document.getElementById('resultadoCiudadCaliente');
 
-    let ciudadesBuscadas = []; // Arreglo para almacenar las ciudades buscadas
+    let ciudadesBuscadas = []; // Arreglo para almacenar las ciudades buscadas con sus detalles
     let temperaturasPorDefecto = []; // Arreglo para almacenar las temperaturas de las ciudades por defecto
-    const ciudadesPorDefecto = ['Madrid', 'Barcelona', 'Buenos Aires', 'Lima', 'Santiago']; // Ciudades por defecto
+    const ciudadesPorDefectoOriginal = ['Madrid', 'Barcelona', 'Buenos Aires', 'Lima', 'Santiago']; // Ciudades por defecto
+    let ciudadesPorDefecto = [...ciudadesPorDefectoOriginal]; // Copia del arreglo original
 
-    // Mostrar las ciudades por defecto al cargar la página
     function mostrarCiudadesPorDefecto() {
         listaCiudadesPorDefecto.innerHTML = ""; // Limpiar lista antes de mostrar
         temperaturasPorDefecto = []; // Reiniciar el arreglo de temperaturas
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('insertarBtn').addEventListener('click', () => {
-        const ciudad = ciudadInput.value.trim(); // Eliminar espacios en blanco
+        const ciudad = ciudadInput.value.trim();
         if (ciudad === "") {
             alert("Por favor, ingrese el nombre de una ciudad.");
         } else {
@@ -34,8 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('borrarDatosBtn').addEventListener('click', () => {
-        localStorage.removeItem('clima');
+        // Limpiar el arreglo de ciudades buscadas
+        ciudadesBuscadas = [];
+
+        // Actualizar la interfaz de usuario para eliminar la lista de ciudades
+        mostrarListaCiudades();
+
+        // Mostrar el formulario inicial de nuevo
         mostrarFormulario();
+
+        alert("Los datos han sido eliminados.");
     });
 
     buscarBtn.addEventListener('click', () => {
@@ -43,11 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ciudadBuscada === "") {
             alert("Por favor, ingrese el nombre de una ciudad para buscar.");
         } else {
-            fetchDatosClima(buscarCiudadInput.value.trim(), true);
+            fetchDatosClima(ciudadBuscada, true);
         }
     });
 
-    // Agregar evento para el nuevo botón "Agregar Ciudad"
     document.getElementById('agregarCiudadBtn').addEventListener('click', () => {
         const nuevaCiudad = document.getElementById('nuevaCiudadInput').value.trim();
 
@@ -56,13 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!ciudadesPorDefecto.includes(nuevaCiudad)) {
+        if (!ciudadesPorDefecto.includes(nuevaCiudad) && !ciudadesBuscadas.some(c => c.nombre === nuevaCiudad)) {
             ciudadesPorDefecto.push(nuevaCiudad); // Agregar la nueva ciudad al arreglo
             fetchDatosClima(nuevaCiudad, false, true); // Obtener clima para la nueva ciudad
             document.getElementById('nuevaCiudadInput').value = ""; // Limpiar el input
         } else {
-            alert("La ciudad ya está en la lista de ciudades por defecto.");
+            alert("La ciudad ya está en la lista de ciudades por defecto o en la lista de búsqueda.");
         }
+    });
+
+    document.getElementById('restablecerDefaultBtn').addEventListener('click', () => {
+        ciudadesPorDefecto = [...ciudadesPorDefectoOriginal]; // Restablecer a las ciudades originales
+        mostrarCiudadesPorDefecto(); // Mostrar las ciudades por defecto actualizadas
+        alert("Las ciudades han sido restablecidas a los valores predeterminados.");
     });
 
     function fetchDatosClima(ciudad, esBusqueda = false, esDefault = false) {
@@ -78,44 +91,56 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const temperatura = Math.round(data.main.temp);
                 const clima = data.weather[0].description;
-                const infoClima = `Ciudad: ${data.name}, Temperatura: ${temperatura}°C, Clima: ${clima}`;
+                const infoClima = {
+                    nombre: data.name,
+                    temperatura,
+                    clima
+                };
 
                 if (esDefault) {
-                    temperaturasPorDefecto.push({ ciudad: data.name, temperatura }); // Almacenar temperatura y ciudad
-                    mostrarCiudadPorDefecto(infoClima); // Mostrar solo en la sección de ciudades por defecto
-                    mostrarCiudadMasCaliente(); // Actualizar la ciudad más caliente
+                    temperaturasPorDefecto.push(infoClima);
+                    mostrarCiudadPorDefecto(infoClima);
+                    mostrarCiudadMasCaliente();
                 } else if (esBusqueda) {
-                    // Solo agregar si no está en las ciudades por defecto
-                    if (!ciudadesPorDefecto.includes(data.name)) {
+                    if (!ciudadesBuscadas.some(c => c.nombre === data.name) && !ciudadesPorDefecto.includes(data.name)) {
                         agregarCiudad(infoClima);
+                    } else {
+                        alert("La ciudad ya está en la lista de búsqueda o en las ciudades por defecto.");
                     }
                 } else {
-                    localStorage.setItem('clima', infoClima);
-                    mostrarClima(infoClima);
+                    if (!ciudadesBuscadas.some(c => c.nombre === data.name)) {
+                        localStorage.setItem('clima', JSON.stringify(infoClima));
+                        mostrarClima(infoClima);
+                    } else {
+                        alert("La ciudad ya está en la lista de búsqueda.");
+                    }
                 }
             })
-            .catch(error => alert(error.message)); // Mostrar error si la ciudad no existe
+            .catch(error => alert(error.message));
     }
 
     function agregarCiudad(info) {
-        ciudadesBuscadas.push(info);
-        ciudadesBuscadas.sort(); // Ordenar alfabéticamente
-        mostrarListaCiudades();
+        if (!ciudadesBuscadas.some(c => c.nombre === info.nombre)) {
+            ciudadesBuscadas.push(info);
+            mostrarListaCiudades();
+        } else {
+            alert("La ciudad ya está en la lista de búsqueda.");
+        }
     }
 
     function mostrarListaCiudades() {
         listaCiudades.innerHTML = ""; // Limpiar lista antes de mostrar
         ciudadesBuscadas.forEach(ciudad => {
             const li = document.createElement('li');
-            li.textContent = ciudad;
+            li.textContent = `Ciudad: ${ciudad.nombre}, Temperatura: ${ciudad.temperatura}°C, Clima: ${ciudad.clima}`;
             listaCiudades.appendChild(li);
         });
     }
 
     function mostrarCiudadPorDefecto(info) {
         const li = document.createElement('li');
-        li.textContent = info; // Mostrar la información del clima
-        listaCiudadesPorDefecto.appendChild(li); // Agregar a la lista de ciudades por defecto
+        li.textContent = `Ciudad: ${info.nombre}, Temperatura: ${info.temperatura}°C, Clima: ${info.clima}`;
+        listaCiudadesPorDefecto.appendChild(li);
     }
 
     function mostrarCiudadMasCaliente() {
@@ -124,32 +149,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 current.temperatura > max.temperatura ? current : max
             );
 
-            resultadoCiudadCaliente.textContent = `La ciudad más caliente es: ${ciudadMasCaliente.ciudad} con ${ciudadMasCaliente.temperatura}°C.`;
+            resultadoCiudadCaliente.textContent = `La ciudad más caliente es: ${ciudadMasCaliente.nombre} con ${ciudadMasCaliente.temperatura}°C.`;
         }
     }
 
     function mostrarClima(info) {
-        formulario.style.display = 'none';  // Ocultar el primer formulario
-        climaInfo.style.display = 'block';  // Mostrar la sección del clima
-
-        // Actualizar el H1 con el mensaje deseado
-        resultadoClima.textContent = `Bienvenido de vuelta, su ciudad y clima es: ${info}`;
+        formulario.style.display = 'none';
+        climaInfo.style.display = 'block';
+        resultadoClima.textContent = `Bienvenido de vuelta, su ciudad y clima es: Ciudad: ${info.nombre}, Temperatura: ${info.temperatura}°C, Clima: ${info.clima}`;
     }
 
     function mostrarFormulario() {
-        formulario.style.display = 'block';  // Mostrar el primer formulario
-        climaInfo.style.display = 'none';     // Ocultar la sección del clima
+        formulario.style.display = 'block';
+        climaInfo.style.display = 'none';
     }
 
-    // Al cargar la página, verificar si hay datos en localStorage y mostrar ciudades por defecto
     window.onload = function () {
         const climaGuardado = localStorage.getItem('clima');
 
         if (climaGuardado) {
-            mostrarClima(climaGuardado);
-            mostrarListaCiudades(); // Asegúrate de mostrar la lista de ciudades si hay datos guardados.
+            mostrarClima(JSON.parse(climaGuardado));
+            mostrarListaCiudades();
         }
 
-        mostrarCiudadesPorDefecto(); // Mostrar las ciudades por defecto
+        mostrarCiudadesPorDefecto();
     };
 });
