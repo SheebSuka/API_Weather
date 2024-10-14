@@ -129,18 +129,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function mostrarListaCiudades() {
-        listaCiudades.innerHTML = ""; // Limpiar lista antes de mostrar
+        listaCiudades.innerHTML = ""; // Limpiar el contenedor de cards antes de mostrar
         ciudadesBuscadas.forEach(ciudad => {
-            const li = document.createElement('li');
-            li.textContent = `Ciudad: ${ciudad.nombre}, Temperatura: ${ciudad.temperatura}°C, Clima: ${ciudad.clima}`;
-            listaCiudades.appendChild(li);
+            const card = document.createElement('div');
+            card.className = 'col-md-4';
+            card.innerHTML = `
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">${ciudad.nombre}</h5>
+                        <p class="card-text">Temperatura: ${ciudad.temperatura}°C</p>
+                        <p class="card-text">Clima: ${ciudad.clima}</p>
+                    </div>
+                </div>
+            `;
+            listaCiudades.appendChild(card);
         });
     }
 
     function mostrarCiudadPorDefecto(info) {
-        const li = document.createElement('li');
-        li.textContent = `Ciudad: ${info.nombre}, Temperatura: ${info.temperatura}°C, Clima: ${info.clima}`;
-        listaCiudadesPorDefecto.appendChild(li);
+        const card = document.createElement('div');
+        card.className = 'col-md-4';
+        card.innerHTML = `
+            <div class="card border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">${info.nombre}</h5>
+                    <p class="card-text">Temperatura: ${info.temperatura}°C</p>
+                    <p class="card-text">Clima: ${info.clima}</p>
+                </div>
+            </div>
+        `;
+        listaCiudadesPorDefecto.appendChild(card);
     }
 
     function mostrarCiudadMasCaliente() {
