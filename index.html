@@ -4,21 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clima con LocalStorage</title>
+    <title>Aplicación del Clima</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>Consulta del Clima</h1>
-    <div id="cityForm">
-        <input type="text" id="cityInput" placeholder="Ingresa el nombre de la ciudad">
-        <button id="getWeatherBtn">Mostrar Temperatura</button>
-        <button id="addCityBtn">Agregar Ciudad</button>
+    <div id="formulario" class="container">
+        <h1>¡Bienvenido! Inserte su ciudad:</h1>
+        <input type="text" id="ciudadInput" placeholder="Ciudad">
+        <button id="insertarBtn">Insertar</button>
     </div>
-    <button id="clearStorageBtn">Eliminar Datos Guardados</button>
-    <div id="weatherResult"></div>
 
-    <h2>Ciudades por Defecto</h2>
-    <ul id="defaultCities"></ul>
+    <div id="climaInfo" class="container" style="display:none;">
+        <h1 id="resultadoClima">Bienvenido de vuelta, su ciudad y clima es:</h1>
+        <input type="text" id="buscarCiudadInput" placeholder="Buscar ciudad">
+        <button id="buscarBtn">Buscar</button>
+        <ul id="listaCiudades"></ul>
+        <button id="borrarDatosBtn">Borrar datos</button>
+    </div>
+
+    <!-- Sección para mostrar ciudades por defecto -->
+    <div id="ciudadesPorDefecto" class="container">
+        <h2>Ciudades por Defecto</h2>
+        <ul id="listaCiudadesPorDefecto"></ul>
+
+        <!-- Nuevo formulario para agregar ciudades por defecto -->
+        <h3>Agregar Ciudad por Defecto</h3>
+        <input type="text" id="nuevaCiudadInput" placeholder="Nueva Ciudad">
+        <button id="agregarCiudadBtn">Agregar Ciudad</button>
+    </div>
+
+
+    <!-- Sección para mostrar la ciudad más caliente -->
+    <div id="ciudadMasCaliente" class="container">
+        <h2>Ciudad Más Caliente</h2>
+        <p id="resultadoCiudadCaliente"></p>
+    </div>
 
     <script src="script.js"></script>
 </body>
